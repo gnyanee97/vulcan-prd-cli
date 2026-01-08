@@ -1,0 +1,34 @@
+{
+  "name": "vulcan-prd",
+  "version": "1.0.0",
+  "description": "CLI tool for publishing Vulcan data product PRDs to the central repository",
+  "type": "module",
+  "bin": {
+    "vulcan-prd": "./dist/index.js"
+  },
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/index.ts",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "vulcan",
+    "prd",
+    "data-product",
+    "cli"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@octokit/rest": "^20.1.1",
+    "commander": "^12.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.10",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}
+
