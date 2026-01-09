@@ -135,6 +135,34 @@ export async function publishPrd(options: PublishOptions): Promise<PublishResult
 
     // Get base branch (default to 'main', but can be overridden)
     const baseBranch = options.baseBranch || 'main';
+
+    // Verify access before proceeding (skip in dry-run mode)
+    if (!options.dryRun) {
+      const access = await github.verifyAccess();
+      if (!access.hasRead) {
+        return {
+          success: false,
+          error: `Cannot access repository ${owner}/${repo}: ${access.error}\n\n` +
+            `Please ensure:\n` +
+            `1. The repository exists and is accessible\n` +
+            `2. Your GitHub token has read access to ${owner}/${repo}\n` +
+            `3. If it's a private repo, your token has access to it`
+        };
+      }
+      if (!access.hasWrite) {
+        return {
+          success: false,
+          error: `Cannot write to repository ${owner}/${repo}: ${access.error}\n\n` +
+            `Your GitHub token needs write permissions to create branches and PRs.\n\n` +
+            `To fix this:\n` +
+            `1. Create a new GitHub Personal Access Token at https://github.com/settings/tokens\n` +
+            `2. Select the 'repo' scope (for private repos) or 'public_repo' scope (for public repos)\n` +
+            `3. Ensure you have write access to ${owner}/${repo}\n` +
+            `4. If the repo belongs to an organization, ensure your token has organization access\n` +
+            `5. Set the token: export GITHUB_TOKEN=ghp_your_token_here`
+        };
+      }
+    }
     
     // Generate filename and path
     const filename = `${sanitizeFilename(productName)}.md`;
