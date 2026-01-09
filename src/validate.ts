@@ -3,7 +3,7 @@
  */
 
 import { readFileSync } from 'fs';
-import { validateAnswers, type PrdAnswers } from './prd-types';
+import { validateAnswers, type PrdAnswers } from './prd-types.js';
 
 /**
  * Validate PRD markdown file

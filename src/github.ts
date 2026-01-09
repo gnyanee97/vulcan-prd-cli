@@ -156,6 +156,7 @@ export class GitHubClient {
 
   /**
    * Create PR with multiple file changes
+   * @deprecated Use createBranch, createOrUpdateFile, and createPullRequest separately for more control
    */
   async createPR(params: CreatePRParams): Promise<{ number: number; url: string }> {
     const defaultBranch = await this.getDefaultBranch();
